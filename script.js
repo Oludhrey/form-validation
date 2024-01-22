@@ -11,7 +11,7 @@ function validateName() {
     nameError.innerHTML = "Name is required";
     return false;
   }
-  if (!name.match(/^[A-Za-z]*\${1}[A-Za-z]*$/)) {
+  if (!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)) {
     nameError.innerHTML = "Write full name";
     return false;
   }
@@ -42,7 +42,7 @@ function validateEmail() {
   var email = document.getElementById("contact-email").value;
 
   if (email.length == 0) {
-    emailError.innerHTML = "Email is required";
+    emailError.innerHTML = "Email required";
     return false;
   }
   if (!email.match(/^[A-Za-z\._\-[0-9]*@[A-Za-z]*[\.][a-z]{2,4}$/)) {
@@ -55,4 +55,29 @@ function validateEmail() {
 
 function validateMessage() {
   var message = document.getElementById("contact-message").value;
+  var required = 30;
+  var left = required - message.length;
+
+  if (left > 0) {
+    messageError.innerHTML = left + " more characters required";
+    return false;
+  }
+  messageError.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+  return true;
+}
+
+function validateForm() {
+  if (
+    !validateName() ||
+    !validatePhone() ||
+    !validateEmail() ||
+    !validateMessage()
+  ) {
+    submitError.style.display = "block";
+    submitError.innerHTML = " Please fix error to submit";
+    setTimeout(function () {
+      submitError.style.display = "none";
+    }, 3000);
+    return false;
+  }
 }
